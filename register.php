@@ -74,7 +74,7 @@
 
     //insert into user_details
     $country_id = $_POST[COUNTRY_ID];
-    $sql = "insert into user_details(user_id,country_id,email_verification,two_step_verification_type,timezone) values ('$user_id','$country_id',1,'disabled','Asia/Dhaka')";
+    $sql = "insert into user_details(user_id,country_id,email_verification,phone_verification,two_step_verification_type,timezone) values ('$user_id','$country_id',1,1,'disabled','Asia/Dhaka')";
     $r = $conn->query($sql);
     if(!$r){
         $error['message'] = "Unable to Register";
