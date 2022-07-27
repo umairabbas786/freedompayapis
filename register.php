@@ -50,15 +50,14 @@
     $password = $_POST[PASSWORD];
     $password = password_hash($password, PASSWORD_DEFAULT);
 
-    $short_name = '';
+    $short_name = strtolower($_POST[DEFAULT_COUNTRY]);
     $country_id = '';
 
-    $sql = "select id,short_name from countries where iso3 = '$defaultCountry'";
+    $sql = "select id from countries where short_name = '$defaultCountry'";
     $r = $conn->query($sql);
     if(mysqli_num_rows($r) >=1) {
         $row = mysqli_fetch_assoc($r);
         $country_id = $row['id'];
-        $short_name = strtolower($row['short_name']);
     }
     else{
         $error['message'] = "Unable to Get Country Details";

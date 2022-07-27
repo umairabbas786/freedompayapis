@@ -52,6 +52,7 @@
 
         if($rr['phone_verification'] == 0){
             $error['message'] = "Verify Your Phone Number";
+            $error['number'] = $row['formattedPhone'];
             die(json_encode($error));
         }
 
