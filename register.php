@@ -12,7 +12,6 @@
     const FORMATTED_PHONE = 'formatted_phone';
     const PHONE = 'phone';
     const DEFAULT_COUNTRY = 'country_code';
-    const COUNTRY_ID = 'country_id';
     const CARRIER_CODE = 'carrier_code';
     const EMAIL = 'email';
     const PASSWORD = 'password';
@@ -20,7 +19,7 @@
 
 
     //validating inputs
-    foreach ([FIRST_NAME,LAST_NAME,FORMATTED_PHONE,EMAIL,PHONE,DEFAULT_COUNTRY,CARRIER_CODE,PASSWORD,COUNTRY_ID] as $item) {
+    foreach ([FIRST_NAME,LAST_NAME,FORMATTED_PHONE,EMAIL,PHONE,DEFAULT_COUNTRY,CARRIER_CODE,PASSWORD] as $item) {
         validateInputs($item);
     }
 
@@ -51,7 +50,23 @@
     $password = $_POST[PASSWORD];
     $password = password_hash($password, PASSWORD_DEFAULT);
 
-    $sql = "insert into users(role_id,type,first_name,last_name,formattedPhone,phone,defaultCountry,carrierCode,email,password,created_at,updated_at,picture) values(2,'user','$first_name','$last_name','$formattedPhone','$phone','$defaultCountry','$carrierCode','$email','$password',now(),now(),'')";
+    $short_name = '';
+    $country_id = '';
+
+    $sql = "select id,short_name from countries where iso3 = '$defaultCountry'";
+    $r = $conn->query($sql);
+    if(mysqli_num_rows($r) >=1) {
+        $row = mysqli_fetch_assoc($r);
+        $country_id = $row['id'];
+        $short_name = strtolower($row['short_name']);
+    }
+    else{
+        $error['message'] = "Unable to Get Country Details";
+        die(json_encode($error));
+    }
+
+
+    $sql = "insert into users(role_id,type,first_name,last_name,formattedPhone,phone,defaultCountry,carrierCode,email,password,created_at,updated_at,picture) values(2,'user','$first_name','$last_name','$formattedPhone','$phone','$short_name','$carrierCode','$email','$password',now(),now(),'')";
     $r = $conn->query($sql);
     if(!$r){
         $error['message'] = "Unable to Register";
@@ -73,7 +88,6 @@
     }
 
     //insert into user_details
-    $country_id = $_POST[COUNTRY_ID];
     $sql = "insert into user_details(user_id,country_id,email_verification,phone_verification,two_step_verification_type,timezone) values ('$user_id','$country_id',1,1,'disabled','Asia/Dhaka')";
     $r = $conn->query($sql);
     if(!$r){
