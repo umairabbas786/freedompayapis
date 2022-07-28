@@ -21,7 +21,7 @@
     $password = password_hash($password, PASSWORD_DEFAULT);
 
     //checking user exists or not
-    $sql = "select * from users where phone = '$phone'";
+    $sql = "select * from users where phone = '$phone' or formattedPhone = '$phone'";
     $r = $conn->query($sql);
     if(mysqli_num_rows($r) >=1) {
         $sql = "update users set password = '$password' where phone = '$phone'";

@@ -46,7 +46,7 @@
     $last_name = $_POST[LAST_NAME];
     $formattedPhone = $_POST[FORMATTED_PHONE];
     $defaultCountry = $_POST[DEFAULT_COUNTRY];
-    $carrierCode = $_POST[CARRIER_CODE];
+    $carrierCode = str_replace("+",'',$_POST[CARRIER_CODE]);
     $password = $_POST[PASSWORD];
     $password = password_hash($password, PASSWORD_DEFAULT);
 
