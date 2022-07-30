@@ -24,7 +24,6 @@
     $message = $_POST[MESSAGE];
     $priority = $_POST[PRIORITY];
     $code = 'TIC-' . strtoupper(random_str(6));
-    echo $code;
 
     //getting user wallet
     $sql = "insert into tickets(admin_id,user_id,ticket_status_id,subject,message,code,priority,created_at,updated_at) values(12,'$user_id',1,'$subject','$message','$code','$priority',now(),now())";
