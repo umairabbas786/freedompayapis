@@ -25,6 +25,9 @@
         $sql = "select * from user_details where user_id = '$user_id'";
         $r = $conn->query($sql);
         $rr = mysqli_fetch_assoc($r);
+        if($row['picture'] == null){
+            $row['picture'] = 'https://freedompayuniverse.com/public/admin_dashboard/img/avatar.jpg';
+        }
         //sending response
         $success = [];
         $success['status'] = 'success';

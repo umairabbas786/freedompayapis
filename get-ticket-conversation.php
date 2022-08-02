@@ -18,7 +18,6 @@
     //checking user_id
     $user_id = $_POST[USER_ID];
     $ticket_id = $_POST[TICKET_ID];
-    $message = $_POST[MESSAGE];
 
     //getting user details
     $sql = "select * from users where id = '$user_id'";
