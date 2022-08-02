@@ -9,12 +9,9 @@
     //declaring variables;
     const USER_ID = 'user_id';
     const FILE = 'file';
-    const TYPE = 'identity_type';
-    const NUMBER = 'identity_number';
-
 
     //validating inputs
-    foreach ([USER_ID,TYPE,NUMBER] as $item) {
+    foreach ([USER_ID] as $item) {
         validateInputs($item);
     }
 
@@ -31,7 +28,7 @@
     // generate a new random name for image
     $newName = time() . rand(0, 99999) . "." . end($tmp);
     // move file to directory  to save
-    if (!move_uploaded_file($_FILES[FILE]['tmp_name'], '../public/uploads/user-documents/identity-proof-files/' . $newName)) {
+    if (!move_uploaded_file($_FILES[FILE]['tmp_name'], '../public/uploads/user-documents/address-proof-files/' . $newName)) {
         $error['missing_param'] = 'Failed to save File';
         die(json_encode($error));
     }
@@ -50,7 +47,7 @@
         $row = mysqli_fetch_assoc($r);
         $file_id = $row['id'];
     }
-    $sql = "select * from document_verifications where user_id = '$user_id' and verification_type = 'identity'";
+    $sql = "select * from document_verifications where user_id = '$user_id' and verification_type = 'address'";
     $r = $conn->query($sql);
     if(mysqli_num_rows($r)>=1){
         $error['message'] = 'Documents are already submitted';
@@ -59,7 +56,7 @@
     //uploading documents
     $type = $_POST[TYPE];
     $number = $_POST[NUMBER];
-    $sql = "insert into document_verifications(user_id,file_id,verification_type,identity_type,identity_number,status,created_at,updated_at) values('$user_id','$file_id','identity','$type','$number','pending',now(),now())";
+    $sql = "insert into document_verifications(user_id,file_id,verification_type,status,created_at,updated_at) values('$user_id','$file_id','address','pending',now(),now())";
     $r = $conn->query($sql);
     if($r){
         //sending response
