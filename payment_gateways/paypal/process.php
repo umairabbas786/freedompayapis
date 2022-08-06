@@ -14,7 +14,7 @@
     $paypalConfig = [
         'email' => 'genuinebiz4@gmail.com',
         'return_url' => 'https://freedompayuniverse.com/apis/payment_gateways/paypal/payment-successful.php?user_id=' . $data['user_id'] . '&amount=' . $data['amount'],
-        'cancel_url' => 'http://localhost:3000/payment_gateways/paypal/payment-cancelled.php',
+        'cancel_url' => 'https://freedompayuniverse.com/apis/payment_gateways/paypal/payment-cancelled.php',
         'notify_url' => 'https://freedompayuniverse.com/apis/payment_gateways/paypal/process.php'
     ];
 
