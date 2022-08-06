@@ -45,7 +45,7 @@
     //OPTIONAL
     $CP->setFormElement('custom', 'customValue235');
     $CP->setFormElement('ipn_url', 'http://minesql.me/ipn/cp');
-    $CP->setFormElement('success_url', "https://freedompayuniverse.com/apis/payment_gateways/coinpayments/payment-successful.php?user_id=' . $user_id . '&amount=' . $amount");
+    $CP->setFormElement('success_url', "https://freedompayuniverse.com/apis/payment_gateways/coinpayments/payment-successful.php?user_id=$user_id&amount=$amount");
     $CP->setFormElement('cancel_url', 'https://freedompayuniverse.com/apis/payment_gateways/coinpayments/payment-cancelled.php');
     // After you have finished configuring all your form elements,
     //you can call the CoinPayments::createForm method to invoke
