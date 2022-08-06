@@ -1,53 +1,30 @@
 <?php
 
-    //libraries
-    include "../../include/db.php";
-    include "../../include/functions.php";
-
-    $error = [];
-    $error['status'] = 'error';
-
-    //declaring variables;
-    const USER_ID = 'user_id';
-    const CMD = 'cmd';
-    const NO_NOTE = 'no_note';
-    const LC = 'lc';
-    const BN = 'bn';
-    const FIRST_NAME = 'first_name';
-    const LAST_NAME = 'last_name';
-    const PAYER_EMAIL = 'payer_email';
-    const ITEM_NUMBER = 'item_number';
-    const AMOUNT = 'amount';
-
-
-    //validating inputs
-    foreach ([USER_ID,CMD,NO_NOTE,LC,BN,FIRST_NAME,LAST_NAME,PAYER_EMAIL,ITEM_NUMBER,AMOUNT] as $item) {
-        validateInputs($item);
-    }
-
     // For test payments we want to enable the sandbox mode. If you want to put live
     // payments through then this setting needs changing to `false`.
+
     $enableSandbox = true;
+
+    $data = [];
+    foreach ($_POST as $key => $value) {
+        $data[$key] = stripslashes($value);
+    }
 
     // for your site.
     $paypalConfig = [
         'email' => 'genuinebiz4@gmail.com',
-        'return_url' => 'http://localhost:3000/payment_gateways/paypal/process.php',
-        'cancel_url' => 'http://localhost:3000/payment_gateways/paypal/payment-cancelled.html',
-        'notify_url' => 'http://localhost:3000/payment_gateways/paypal/process.php'
+        'return_url' => 'https://freedompayuniverse.com/apis/payment_gateways/paypal/payment-successful.php?user_id=' . $data['user_id'] . '&amount=' . $data['amount'],
+        'cancel_url' => 'http://localhost:3000/payment_gateways/paypal/payment-cancelled.php',
+        'notify_url' => 'https://freedompayuniverse.com/apis/payment_gateways/paypal/process.php'
     ];
 
     $paypalUrl = $enableSandbox ? 'https://www.sandbox.paypal.com/cgi-bin/webscr' : 'https://www.paypal.com/cgi-bin/webscr';
-
-    // Product being purchased.
-    $itemName = uniqid();
-    $itemAmount = $_POST[AMOUNT];
 
     // Include Functions
 //    require 'functions.php';
 
     // Check if paypal request or response
-    if (!isset($_POST["txn_id"]) && !isset($_POST["txn_type"])) {
+    if (!isset($_GET["PayerID"])) {
 
         // Grab the post data so that we can set up the query string for PayPal.
         // Ideally we'd use a whitelist here to check nothing is being injected into
@@ -65,12 +42,6 @@
         $data['cancel_return'] = stripslashes($paypalConfig['cancel_url']);
         $data['notify_url'] = stripslashes($paypalConfig['notify_url']);
 
-        // Set the details about the product being purchased, including the amount
-        // and currency so that these aren't overridden by the form data.
-        $data['item_name'] = $itemName;
-        $data['amount'] = $itemAmount;
-        $data['currency_code'] = 'USD';
-
         // Add any custom fields for the query string.
         //$data['custom'] = USERID;
 
@@ -80,34 +51,4 @@
         // Redirect to paypal IPN
         header('location:' . $paypalUrl . '?' . $queryString);
         exit();
-
-    } else {
-        // Handle the PayPal response.
-
-        // Create a connection to the database.
-//        $db = new mysqli($dbConfig['host'], $dbConfig['username'], $dbConfig['password'], $dbConfig['name']);
-
-            echo $_POST['txn_id'];
-            echo $_POST['txn_type'];
-        // Assign posted variables to local data array.
-//        $data = [
-//            'item_name' => $_POST['item_name'],
-//            'item_number' => $_POST['item_number'],
-//            'payment_status' => $_POST['payment_status'],
-//            'payment_amount' => $_POST['mc_gross'],
-//            'payment_currency' => $_POST['mc_currency'],
-//            'txn_id' => $_POST['txn_id'],
-//            'receiver_email' => $_POST['receiver_email'],
-//            'payer_email' => $_POST['payer_email'],
-//            'custom' => $_POST['custom'],
-//        ];
-
-        // We need to verify the transaction comes from PayPal and check we've not
-        // already processed the transaction before adding the payment to our
-        // database.
-//        if (verifyTransaction($_POST) && checkTxnid($data['txn_id'])) {
-//            if (addPayment($data) !== false) {
-//                // Payment successfully added.
-//            }
-//        }
     }

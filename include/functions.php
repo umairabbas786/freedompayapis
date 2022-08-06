@@ -7,6 +7,14 @@
             die(json_encode($validation));
         }
     }
+    function validateGetInputs($param){
+        $validation = [];
+        if(!isset($_GET[$param])){
+            $validation['status'] = 'error';
+            $validation['missing_param'] = $param;
+            die(json_encode($validation));
+        }
+    }
     //get ip address
     function getIPAddress() {
         //whether ip is from the share internet
