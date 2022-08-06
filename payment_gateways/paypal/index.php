@@ -32,6 +32,8 @@
         <title>Paypal Integration Test</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+                crossorigin="anonymous"></script>
     </head>
     <style>
         body{
@@ -110,6 +112,9 @@
             background: inherit;
             border-radius: 0px 40px 55px 0px;
         }
+        #loader{
+            visibility: hidden;
+        }
     </style>
     <body>
 
@@ -131,10 +136,19 @@
                 <input type="hidden" name="amount" value="<?php echo $_GET[AMOUNT]?>" / >
                 <input type="hidden" name="currency_code" value="USD" / >
                 <input type="hidden" name="user_id" value="<?php echo $_GET[USER_ID]?>" / >
-                <button type="submit" name="submit" class="btn btn-primary btn-lg"><i class="fa fa-circle-o-notch fa-spin"></i> Proceed To Payment</button>
+                <button type="submit" name="submit" class="btn btn-primary btn-lg"><i class="fa fa-circle-o-notch fa-spin" id="loader"></i> Proceed To Payment</button>
             </form>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function(){
+            $('#paypal_form').submit(function() {
+                $('#loader').css('visibility', 'visible');
+                $('#loader').show();
+            });
+        })
+    </script>
 
     </body>
     </html>
