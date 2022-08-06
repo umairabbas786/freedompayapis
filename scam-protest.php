@@ -22,6 +22,15 @@
     $r = $conn->query($sql);
     if(mysqli_num_rows($r) >=1) {
         $row = mysqli_fetch_assoc($r);
+        $status = $row['status'];
+        if($status == 'Suspended'){
+            $error['message'] = "Account is Suspended";
+            die(json_encode($error));
+        }
+        if($status == 'Inactive'){
+            $error['message'] = "Account is Inactive";
+            die(json_encode($error));
+        }
         $user_id = $row['id'];
         $sql = "select * from wallets where user_id = '$user_id'";
         $r = $conn->query($sql);
