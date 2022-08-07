@@ -40,6 +40,7 @@
             }
 
             array_push($settings,[
+                'id' => $row['id'],
                 'withdrawal_type' => $type,
                 'account' => $account,
             ]);
