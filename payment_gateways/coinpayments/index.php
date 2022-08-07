@@ -21,6 +21,13 @@
     $user_id = $_GET[USER_ID];
     $amount = $_GET[AMOUNT];
 
+    $sql = "select * from fees_limits where payment_method_id = 7 and transaction_type_id = 1";
+    $r = $conn->query($sql);
+    $row = mysqli_fetch_assoc($r);
+
+    $fees = ($row['charge_percentage'] * $amount) / 100;
+    $amount_with_fee = $amount + $fees;
+
     // Create an instance of the class
     $CP = new \MineSQL\CoinPayments();
 
@@ -35,7 +42,7 @@
     //REQUIRED
     $CP->setFormElement('currency', 'USD');                    //Currency in which Invoice bill generated
     $CP->setFormElement('allow_currencies', 'BTC,LTC,LTCT,USDT.TRC20');   //here you can give list of currency allowable for payment
-    $CP->setFormElement('amountf', $amount);                      //Amount for per Item
+    $CP->setFormElement('amountf', $amount_with_fee);                      //Amount for per Item
     $CP->setFormElement('item_name', 'T-shirt');               //Invoice item name
     $CP->setFormElement('allow_quantity',1);                   //Minimum number of quantity
     $CP->setFormElement('want_shipping',0);                    //Shipping not require
