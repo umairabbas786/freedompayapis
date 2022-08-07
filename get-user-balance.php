@@ -21,7 +21,7 @@
     $sql = "select * from users where id = '$user_id'";
     $r = $conn->query($sql);
     if(mysqli_num_rows($r) >=1) {
-        $sql = "select * from wallets where user_id = '$user_id'";
+        $sql = "select * from wallets where user_id = '$user_id' and currency_id = 1";
         $r = $conn->query($sql);
         $row = mysqli_fetch_assoc($r);
         //sending response
