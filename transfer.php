@@ -26,6 +26,12 @@
 
     $sql = "select * from users where email = '$email'";
     $r = $conn->query($sql);
+
+    if(mysqli_num_rows($r)<1){
+        $error['message'] = "Recipient not Found!";
+        die(json_encode($error));
+    }
+
     $row = mysqli_fetch_assoc($r);
     $receiver_id = $row['id'];
     if($row['status'] == 'Suspended'){
