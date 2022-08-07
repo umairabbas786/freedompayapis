@@ -23,7 +23,7 @@
     $last_id = $conn->insert_id;
 
     //update user wallet
-    $sql = "update wallets set balance = balance + '$amount' where user_id = '$user_id' ";
+    $sql = "update wallets set balance = balance + '$amount' where user_id = '$user_id' and currency_id = 1";
     $r = $conn->query($sql);
 
     //create transaction
