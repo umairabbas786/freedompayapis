@@ -79,6 +79,7 @@
 
                 array_push($transactions, [
                     'transaction_id' => $row['id'],
+                    'uuid' => $row['uuid'],
                     'date' => $row['created_at'],
                     'description' => $description,
                     'type' => $type,
