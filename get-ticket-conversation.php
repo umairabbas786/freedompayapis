@@ -46,7 +46,7 @@
         $convo = [
             'name' => $user_name,
             'type' => 'user',
-            'message' => $rr['message'],
+            'message' => strip_tags($rr['message']),
             'date' => $rr['created_at'],
         ];
         array_push($conversation,$convo);
@@ -63,7 +63,7 @@
             }
             array_push($conversation,[
                 'name' => $details,
-               'message' => $row['message'],
+               'message' => strip_tags($row['message']),
                'type' => $row['user_type'],
                 'date' => $row['created_at'],
             ]);
