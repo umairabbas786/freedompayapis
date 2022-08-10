@@ -76,6 +76,7 @@
         $transaction_details = [
             'title' => $title,
             'transaction_id' => $row['id'],
+            'uuid' => $row['uuid'],
             'date' => $row['created_at'],
             'description' => $description,
             'type' => $type,
@@ -83,7 +84,6 @@
             'fee' => '$' . number_format($row['charge_percentage'],2),
             'total' => '$' . number_format($row['total'],2),
             'note' => $row['note'],
-
         ];
         //sending response
         $success = [];
